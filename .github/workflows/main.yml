@@ -1,0 +1,43 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Compile C++ Code
+      run: |
+        if (Test-Path main.cpp) {
+          g++ main.cpp -o kasir.exe
+        } else {
+          Write-Error "File main.cpp tidak ditemukan!"
+          exit 1
+        }
+
+    - name: Upload EXE Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: aplikasi-kasir
+        path: kasir.exe
+    - name: Compile C++ Code
+      run: |
+        if [ -f main.cpp ]; then
+          g++ main.cpp -o kasir.exe
+        else
+          echo "File main.cpp tidak ditemukan!"
+          exit 1
+        fi
+
+    - name: Upload EXE Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: aplikasi-kasir
+        path: kasir.exe
